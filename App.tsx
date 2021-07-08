@@ -1,7 +1,6 @@
 import React from 'react';
 
-// const Button = () => 'Button?'
-const Button = () => <button>Click me!</button>
+const Button = () => <></>
 
 interface IHelloProps {
     name: string,
@@ -13,8 +12,8 @@ const Hello = ({name, message}: IHelloProps) => <>{name} said: {message}</>;
 const App = () => {
     return (
         <>
-            <Hello name={'Adam'} message={'Yellow!'}/>
-            <Button/>
+            <Button />
+            <Hello message={'Hi there'} name={'Adam'}/>
         </>
     )
 }
