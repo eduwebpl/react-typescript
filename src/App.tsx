@@ -1,26 +1,28 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useCallback, useEffect } from 'react';
 
-const Counter = () => {
-    const [counter, setCounter] = useState(0);
+interface IFetchProps {
+    url: string;
+}
 
-    const moreLove = (e: React.MouseEvent) => {
-        setCounter(counter + 1);
-    };
+const Fetch = ({ url }: IFetchProps) => {
+    const getData = useCallback(async () => {
+        const response = await fetch(url);
+    }, []);
 
-    return (
-        <>
-            <div>I 💛 {counter} times!</div>
-            <button onClick={moreLove}>Give me more!</button>
-        </>
-    );
+    useEffect(() => {
+        async function fetchData() {
+            const data = await getData;
+            // use data
+        }
+
+        return () => {
+            console.log('Cleanup');
+        };
+    }, [getData]);
 };
 
 function App(): ReactElement {
-    return (
-        <div>
-            <Counter />
-        </div>
-    );
+    return <div></div>;
 }
 
 export default App;
