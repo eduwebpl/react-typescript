@@ -1,19 +1,52 @@
-import React, { FC, ReactChild, ReactElement, ReactNode, ReactText } from 'react';
+import React, { Component, MouseEvent, ReactElement } from 'react';
 
-interface ILayoutProps {
-    children: ReactNode;
+interface IMouseState {
+    x: number;
+    y: number;
 }
 
-// type ReactNode = ReactChild | boolean | null | undefined;
-// type ReactChild = ReactElement | ReactText;
-// type ReactText = string | number;
+interface IMouseProps {
+    render(state: IMouseState): ReactElement;
+}
 
-const Layout: FC<ILayoutProps> = ({ children }) => {
-    return <div>{children}</div>;
+interface ICatProps {
+    mouse: IMouseState;
+}
+
+const Cat = ({ mouse }: ICatProps) => {
+    return (
+        <img src={'https://placekitten.com/100/100'} style={{ position: 'absolute', left: mouse.x, top: mouse.y }} />
+    );
 };
 
+class Mouse extends Component<IMouseProps, IMouseState> {
+    constructor(props: IMouseProps) {
+        super(props);
+        this.state = { x: 0, y: 0 };
+    }
+
+    handleMouseMove = (event: MouseEvent) => {
+        this.setState({
+            x: event.clientX,
+            y: event.clientY,
+        });
+    };
+
+    render() {
+        return (
+            <div style={{ height: '100vh', width: '100vw' }} onMouseMove={this.handleMouseMove}>
+                {this.props.render(this.state)}
+            </div>
+        );
+    }
+}
+
 function App(): ReactElement {
-    return <Layout>{null}</Layout>;
+    return (
+        <div>
+            <Mouse render={(mouse) => <Cat mouse={mouse} />} />
+        </div>
+    );
 }
 
 export default App;
