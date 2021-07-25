@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const useToggle = (init: boolean) => {
-    const [value, setValue] = useState(init);
-    const toggleValue = () => setValue(!value);
-
-    return [value, toggleValue] as const;
-};
+//  AnimationEvent, ChangeEvent,
+//  ClipboardEvent, CompositionEvent,
+//  DragEvent, FocusEvent, FormEvent,
+//  KeyboardEvent, MouseEvent, PointerEvent,
+//  TouchEvent, TransitionEvent, WheelEvent.
+//  As well as SyntheticEvent, for all other events.
 
 function App() {
-    const [isActive, toggleActive] = useToggle(false);
-    return (
-        <div className="App">
-            {isActive && <>I&apos;m here!</>}
-            {isActive}
-            <button onClick={toggleActive}>Switch!</button>
-        </div>
-    );
+    const action: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement> = (e) => {
+        const target = e.currentTarget;
+        if ('href' in target) {
+            console.log(target.href);
+        }
+    };
+
+    return <button onClick={action}>...</button>;
 }
 
 export default App;
