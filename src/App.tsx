@@ -1,28 +1,20 @@
-import React, { FormEvent } from 'react';
-
-interface IFields {
-    email: HTMLInputElement;
-    message: HTMLInputElement;
-}
+import React from 'react';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import { State, actionCreators } from './state';
+import { useSelector, useDispatch } from 'react-redux';
 
 function App() {
-    const submit = (event: FormEvent<HTMLFormElement>) => {
-        const target = event.target as typeof event.target & IFields;
-        console.log(target.email);
-    };
-
-    const validateEmail: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        // validateEmail
-    };
+    const dispatch = useDispatch();
+    const state = useSelector((state: State) => state.counter);
+    const { add, subtract, reset } = bindActionCreators(actionCreators, dispatch);
 
     return (
-        <>
-            <form name="signup" onSubmit={submit}>
-                <input onChange={validateEmail} type="email" name={'email'} />
-                <input type="text" name={'name'} />
-                <button type="submit">Submit</button>
-            </form>
-        </>
+        <div className="App">
+            <div>{state}</div>
+            <button onClick={() => add(5)}>Add</button>
+            <button onClick={() => subtract(10)}>Subtract</button>
+            <button onClick={() => reset()}>Reset</button>
+        </div>
     );
 }
 
